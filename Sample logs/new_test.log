@@ -12,3 +12,5 @@ Nov 20 16:03:15 webserver sshd[1610]: Disconnected from authenticating user root
 Nov 20 16:04:00 webserver su[1620]: Successful su for root by sysadmin
 Nov 20 16:04:00 webserver su[1620]: + /dev/pts/0 sysadmin:root
 Nov 20 16:05:30 webserver systemd-logind[500]: Session 18 logged out.
+
+(used to add new lines in test.log)
