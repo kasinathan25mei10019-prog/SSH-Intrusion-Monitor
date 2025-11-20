@@ -1,0 +1,12 @@
+def line_re(line):
+    match = log_line.search(line)
+    if match:
+        entry = match.groupdict()
+        if 'Accepted password' in line:
+            entry['event'] = 'SUCCESS'
+            entry['message'] = 'User login accepted'
+        else:
+            entry['event'] = 'FAILURE'
+            entry['message'] = 'User login failed'
+        return entry
+    return None
