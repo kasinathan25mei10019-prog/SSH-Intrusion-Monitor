@@ -1,0 +1,9 @@
+def activity(log_details):
+    ip_info = log_details['ip']
+    event_info = log_details['event']
+    user_info = log_details['user']
+    current_time = time.strftime('%H:%M:%S')
+    if event_info == "SUCCESS":
+        print(f"[{current_time}] [SUCCESS] User : {user_info} has been logged in successfully from IP : {ip_info}")
+    if event_info == "FAILURE":
+        print(f"[{current_time}] [FAILURE] User : {user_info} Failed log in attempt from IP : {ip_info}")
