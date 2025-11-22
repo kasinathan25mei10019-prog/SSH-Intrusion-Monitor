@@ -1,153 +1,122 @@
-Project Report: SSH Intrusion Monitor 
-
-1.Problem Definition 
-
-1.1 Identify a Real-World Problem or Need 
-
-Problem: The Delay in responding to brute-force attacks and unauthorized access using    Secure Shell (SSH) protocol, on Linux servers and unauthorized intrusion on other devices 
-
-Normally as a standard security practice the log files are reviewed after an incidence  
-
-which normally takes time to find the unauthorized user or to find the brute-force attacks 
-
-A lightweight, real-time intrusion monitoring tool that processes raw log data and flags successful logins and failures for rapid respond  
-
-1.2 Define Clear Objectives and Expected Outcomes 
-
-Objectives: 
-
-1. Implement a system to continuously read new lines from a growing log file 
-
-2. Extract data from each line of the log file such as Ip, timestamp, username, etc. 
-
-3. Differentiate between successful and failed login attempts 
-
-4. Provide instantaneous alerts for every login attempts 
-
-Expected Outcomes: 
-
-1. Python script that runs infinitely processing new log data 
-
-2. The script should correctly analyse and extract data from log file 
-
-
-2.Solution Design and Methodology 
-
-
-2.1 Apply Concepts Learned to Design the Solution 
-
-	Modularization : Separating logic into line_re, activity and monitoring. 
-
-	Data Structures: Using match.groupdict() to store the data collected from the lines of log file  
-
-External concepts used: 
-
-	I/O operations: using of open(), f.readline() for opening the log file and reading the file and time.sleep() to wait for some seconds if no new line is found	 
-
-	Text Processing: using re.compile() and log_line.search() for extracting data from log file 
-
-2.2 Use Appropriate Tools, Libraries, or Programming Techniques 
-
-Primary tool: Python3 
-
-Library: re for extracting data from the file 
-
-Library: time for displaying time and to set execution delay 
-
-Technique: Divide and Conquer 
-
-
-3 Structured Development Process 
-
-3.1 Problem 
-
-The Delay in responding to brute-force attacks and unauthorized access using Secure Shell (SSH) protocol, on Linux servers and unauthorized intrusion on other devices 
-
-3.2 Requirements   
-
-Log Format: Must handle standard Linux SSH log format 
-
-Data Extraction: Must extract Timestamp, User and Ip address 
-
-Event type: whether the login was successful or failure 
-
-Tailing: Must monitor new lines 
-
-3.3 Requirements fulfilment method 
-
-Log Format: defined a specific log_line pattern using regex(re) 
-
-Data Extraction: Used named capture groups and stored the values using match.groupdict() 
-
-Event type: used if else statement if the line has Accepted password the log in was successful otherwise is a failed attempt 
-
-Tailing: used an infinite while loop and file.readfile() 
-
-3.4 Top-Down Design 
-
-Modules used: line_re, monitoring, activity 
-
-line_re : Takes a raw line and returns a structured dictionary  
-
-activity: Takes the structured entry and determines the output 
-
-monitoring: Handles file access, infinite tailing loop 
-
-3.5 Algorithm Development 
-
-step1: start 
-
-step2: Take the log file from the user 
-
-step3: open the log file 
-
-step4: read the last line 
-
-step5: extract data ip address, user, successful or failed and time 
-
-step6: if successful then 
-
-step7: print "successful login found" 
-
-step8: if failure then 
-
-step9: print "Failed login found" 
-
-step10: repeat steps 4 to 9 infinitely 
-
-3.5. Implementation 
-
-The complete implementation is provided in the SSH_Monitor.py file, using all the logic defined, including the Regex definition, the extracting of data function, the alerting function, and the main monitoring loop. 
-
-3.6 Testing  
-
-Testing using a sample log file called test.log 
-
-Test.log: 
-
-Nov 20 11:30:05 webserver sshd[1200]: Failed password for invalid user marketing_bot from 203.0.113.45 port 49870 ssh2 Nov 20 11:30:06 webserver sshd[1201]: Invalid user admin_test from 203.0.113.46 port 49871 Nov 20 11:31:30 webserver sshd[1210]: Accepted password for prod_user from 192.168.10.15 port 51234 ssh2 Nov 20 11:32:01 webserver CRON[1300]: pam_unix(cron:session): session opened for user root by (uid=0) Nov 20 11:32:05 webserver sshd[1305]: Failed password for invalid user ftp_test from 203.0.113.45 port 52000 ssh2 Nov 20 11:32:06 webserver sshd[1306]: Failed password for invalid user ftp_test from 203.0.113.45 port 52001 ssh2 Nov 20 11:32:07 webserver sshd[1307]: Disconnected from authenticating user root 10.1.1.1 [preauth] Nov 20 11:33:45 webserver sshd[1320]: Accepted publickey for backup_agent from 10.2.2.2 port 60000 ssh2: RSA SHA256:XYZ123 Nov 20 11:34:02 webserver sshd[1330]: Connection closed by 10.3.3.3 [preauth] Nov 20 11:35:05 webserver sshd[1340]: Failed password for valid user root from 8.8.4.4 port 61000 ssh2 Nov 20 11:35:06 webserver sshd[1341]: Failed password for valid user root from 8.8.4.4 port 61001 ssh2 Nov 20 11:36:00 webserver sshd[1350]: Accepted password for sysadmin from 172.16.5.10 port 65000 ssh2 Nov 20 11:36:30 webserver sudo[1360]: session opened for user root by (uid=0) Nov 20 11:40:00 webserver sshd[1400]: error: maximum authentication attempts exceeded for invalid user scanner_probe from 172.16.5.1 port 59000 ssh2 
-
-Output : 
-
-Enter the full path to the log file /home/ubuntu/test projects/test.log 
-
-Starting the analyser....... 
-
-[19:26:55] [FAILURE] User : invalid Failed log in attempt from IP : 203.0.113.45 
-
-[19:26:55] [SUCCESS] User : prod_user has been logged in successfully from IP : 192.168.10.15 
-
-[19:26:55] [FAILURE] User : invalid Failed log in attempt from IP : 203.0.113.45 
-
-[19:26:55] [FAILURE] User : invalid Failed log in attempt from IP : 203.0.113.45 
-
-[19:26:55] [FAILURE] User : valid Failed log in attempt from IP : 8.8.4.4 
-
-[19:26:55] [FAILURE] User : valid Failed log in attempt from IP : 8.8.4.4 
-
-[19:26:55] [SUCCESS] User : sysadmin has been logged in successfully from IP : 172.16.5.10 
-
+Project Report: SSH Intrusion Monitor
+1.Problem Definition
+1.1 Identify a Real-World Problem or Need
+
+Problem: The Delay in responding to brute-force attacks and unauthorized access using    Secure Shell (SSH) protocol, on Linux servers and unauthorized intrusion on other devices
+ 
+Normally as a standard security practice the log files are reviewed after an incidence 
+which normally takes time to find the unauthorized user or to find the brute-force attacks
+ 
+A lightweight, real-time intrusion monitoring tool that processes raw log data and flags successful logins and failures for rapid respond
+ 
+1.2 Define Clear Objectives and Expected Outcomes
+ 
+Objectives:
+ 
+1. Implement a system to continuously read new lines from a growing log file
+2. Extract data from each line of the log file such as Ip, timestamp, username, etc.
+3. Differentiate between successful and failed login attempts
+4. Provide instantaneous alerts for every login attempts
+ 
+Expected Outcomes:
+ 
+1. Python script that runs infinitely processing new log data
+2. The script should correctly analyse and extract data from log file
+ 
+2.Solution Design and Methodology
+ 
+2.1 Apply Concepts Learned to Design the Solution
+ 
+Modularization : Separating logic into line_re, activity and monitoring.
+Data Structures: Using match.groupdict() to store the data collected from the lines of log file 
+
+External concepts used:
+
+I/O operations: using of open(), f.readline() for opening the log file and reading the file and time.sleep() to wait for some seconds if no new line is found	
+Text Processing: using re.compile() and log_line.search() for extracting data from log file
+ 
+2.2 Use Appropriate Tools, Libraries, or Programming Techniques
+ 
+Primary tool: Python3
+Library: re for extracting data from the file
+Library: time for displaying time and to set execution delay
+Technique: Divide and Conquer
+ 
+3 Structured Development Process
+ 
+3.1 Problem
+The Delay in responding to brute-force attacks and unauthorized access using Secure Shell (SSH) protocol, on Linux servers and unauthorized intrusion on other devices
+ 
+3.2 Requirements
+ 
+Log Format: Must handle standard Linux SSH log format
+Data Extraction: Must extract Timestamp, User and Ip address
+Event type: whether the login was successful or failure
+Tailing: Must monitor new lines
+ 
+3.3 Requirements fulfilment method
+ 
+Log Format: defined a specific log_line pattern using regex(re)
+Data Extraction: Used named capture groups and stored the values using match.groupdict()
+Event type: used if else statement if the line has Accepted password the log in was successful otherwise is a failed attempt
+Tailing: used an infinite while loop and file.readfile()
+ 
+3.4 Top-Down Design
+ 
+Modules used: line_re, monitoring, activity
+ 
+line_re : Takes a raw line and returns a structured dictionary 
+activity: Takes the structured entry and determines the output
+monitoring: Handles file access, infinite tailing loop
+ 
+3.5 Algorithm Development
+ 
+step1: start
+step2: Take the log file from the user
+step3: open the log file
+step4: read the last line
+step5: extract data ip address, user, successful or failed and time
+step6: if successful then
+step7: print "successful login found"
+step8: if failure then
+step9: print "Failed login found"
+step10: repeat steps 4 to 9 infinitely
+
+3.5. Implementation
+The complete implementation is provided in the SSH_Monitor.py file, using all the logic defined, including the Regex definition, the extracting of data function, the alerting function, and the main monitoring loop.
+
+3.6 Testing 
+Testing Approach:
+As the script is designed to monitor and read Linux based log file it is recommended to test the script on a Linux device or we can test using a testing log file named test.log
+Testing using a sample log file called test.log
+
+Test.log:
+Nov 20 11:30:05 webserver sshd[1200]: Failed password for invalid user marketing_bot from 203.0.113.45 port 49870 ssh2 Nov 20 11:30:06 webserver sshd[1201]: Invalid user admin_test from 203.0.113.46 port 49871 Nov 20 11:31:30 webserver sshd[1210]: Accepted password for prod_user from 192.168.10.15 port 51234 ssh2 Nov 20 11:32:01 webserver CRON[1300]: pam_unix(cron:session): session opened for user root by (uid=0) Nov 20 11:32:05 webserver sshd[1305]: Failed password for invalid user ftp_test from 203.0.113.45 port 52000 ssh2 Nov 20 11:32:06 webserver sshd[1306]: Failed password for invalid user ftp_test from 203.0.113.45 port 52001 ssh2 Nov 20 11:32:07 webserver sshd[1307]: Disconnected from authenticating user root 10.1.1.1 [preauth] Nov 20 11:33:45 webserver sshd[1320]: Accepted publickey for backup_agent from 10.2.2.2 port 60000 ssh2: RSA SHA256:XYZ123 Nov 20 11:34:02 webserver sshd[1330]: Connection closed by 10.3.3.3 [preauth] Nov 20 11:35:05 webserver sshd[1340]: Failed password for valid user root from 8.8.4.4 port 61000 ssh2 Nov 20 11:35:06 webserver sshd[1341]: Failed password for valid user root from 8.8.4.4 port 61001 ssh2 Nov 20 11:36:00 webserver sshd[1350]: Accepted password for sysadmin from 172.16.5.10 port 65000 ssh2 Nov 20 11:36:30 webserver sudo[1360]: session opened for user root by (uid=0) Nov 20 11:40:00 webserver sshd[1400]: error: maximum authentication attempts exceeded for invalid user scanner_probe from 172.16.5.1 port 59000 ssh2
+
+Output :
+Enter the full path to the log file /home/ubuntu/test projects/test.log
+Starting the analyser.......
+[19:26:55] [FAILURE] User : invalid Failed log in attempt from IP : 203.0.113.45
+[19:26:55] [SUCCESS] User : prod_user has been logged in successfully from IP : 192.168.10.15
+[19:26:55] [FAILURE] User : invalid Failed log in attempt from IP : 203.0.113.45
+[19:26:55] [FAILURE] User : invalid Failed log in attempt from IP : 203.0.113.45
+[19:26:55] [FAILURE] User : valid Failed log in attempt from IP : 8.8.4.4
+[19:26:55] [FAILURE] User : valid Failed log in attempt from IP : 8.8.4.4
+[19:26:55] [SUCCESS] User : sysadmin has been logged in successfully from IP : 172.16.5.10
 
 Refinement: 
-The current solution successfully addresses all core requirements and is resilient to noise in the log file, only processing lines that contain the specific, structured authentication data required by the log_line pattern. The modular design simplifies future enhancements, such as state tracking for brute-force detection. 
- 
+The current solution successfully addresses all core requirements and is resilient to noise in the log file, only processing lines that contain the specific, structured authentication data required by the log_line pattern. The modular design simplifies future enhancements, such as state tracking for brute-force detection.
+Challenges Faced:
+Every system uses unique format for their log file, so common format script is difficult to pull off as Linux systems might have phrases like failed attempt and accepted passwords while windows does not have them
+The next challenge was to extract data from the log file; I first used spilt function to split each data but doing that will lead to using of non-real log files
+Learnings & Key Takeaways
+To over come the difficulty of extracting data from log file I learned to use regex which splits with respect to number of characters, digits, and whitespaces 
+To get the current time I had to learn the use of time module for collecting the current time
+
+Future Enhancements
+The SSH monitoring script can be enhanced with 
+	1.Multiple log file acceptance:
+		The code can be modified so that it will be capable to read and extract data from more log files like windows and web servers
+	
+	2.Alert function:
+		The code can be modified so that it can provide the user with messages or emails if a login does happen
