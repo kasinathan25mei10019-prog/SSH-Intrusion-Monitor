@@ -1,5 +1,0 @@
-1.Python 3.x
-
-2.The standard Python modules re and time.
-
-3.Access to a Linux authentication log file (e.g., /var/log/auth.log or /var/log/secure) or any other log file of linux systems.
